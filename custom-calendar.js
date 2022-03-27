@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 
+const UPDATE_INTERVAL = 5000;
+
 Module.register("custom-calendar", {
 	defaults: {},
 	start: function () {
@@ -8,7 +10,7 @@ Module.register("custom-calendar", {
     setInterval(function() {
             self.sendSocketNotification('DO_PYTHON');
             self.updateDom();
-        }, 5000);
+        }, UPDATE_INTERVAL);
   },
 	getDom: function() {
         var element = document.createElement("div")
@@ -17,7 +19,7 @@ Module.register("custom-calendar", {
         element.innerHTML = "Hello World"
         return element
       },
-	notificationReceived: function (notification, payload) {},
+	notificationReceived: function () {},
 
 	socketNotificationReceived: function (notification, payload) {
     if (notification == "PYTHON_DONE") {
