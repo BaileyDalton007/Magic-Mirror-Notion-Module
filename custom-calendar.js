@@ -3,6 +3,8 @@
 
 const UPDATE_INTERVAL = 10000;
 
+const dateOptions = {timeZone: "America/New_York", month: 'short', day: 'numeric' };
+
 let currentEvents = "Loading...";
 let currentDates = "";
 
@@ -81,7 +83,32 @@ Module.register("custom-calendar", {
 
     for (let i = 0; i < eventList.length; i++) {
       returnEvents += eventList[i].name + "<br>";
-      returnDates += eventList[i].date + "<br>";
+
+      var date = new Date(eventList[i].date);
+      Log.log(date);
+      var dateString = date.toLocaleDateString("en-US", dateOptions);
+
+      // Uses the date to assign the suffix
+      var suffix = "th";
+
+      var numDate = date.getDate();
+      switch(numDate) {
+        case "1":
+        case "21":
+        case 31:
+          suffix = "st";
+          break;
+        case 2:
+        case 22:
+          suffix = "nd";
+          break;
+        case "3":
+        case "23":
+          suffix = "rd"
+          break;
+      }
+
+      returnDates += dateString + suffix + "<br>";
     }
 
     return [returnEvents, returnDates]
