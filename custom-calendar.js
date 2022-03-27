@@ -1,38 +1,63 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 
-const UPDATE_INTERVAL = 5000;
+const UPDATE_INTERVAL = 10000;
 
-let currentDisplay = "Loading...";
+let currentEvents = "Loading...";
+let currentDates = "";
 
 Module.register("custom-calendar", {
 	defaults: {
     maxLength: 10
   },
+
+  getStyles: function () {
+		return ["custom-calendar.css"];
+	},
+
 	start: function () {
     var self = this;
+    self.sendSocketNotification('DO_PYTHON');
+    self.updateDom();
+
     setInterval(function() {
             self.sendSocketNotification('DO_PYTHON');
             self.updateDom();
         }, UPDATE_INTERVAL);
   },
 	getDom: function() {
-        var element = document.createElement("div")
-        element.id = "display"
-        element.className = "myContent"
-        element.innerHTML = currentDisplay
-        return element
+        var display = document.createElement("div")
+        display.class = "display";
+        display.id = "display";
+
+        var title = document.createElement("div");
+        title.class = "header";
+        title.id = "header";
+        title.innerHTML = "Calendar"
+        //title.setAttribute("style", "font-weight:bold")
+
+        var element = document.createElement("div");
+        element.className = "content";
+        element.id = "content";
+        element.innerHTML = currentEvents + currentDates;
+
+        display.appendChild(title)
+        display.appendChild(element)
+
+        return display
       },
 	notificationReceived: function () {},
 
 	socketNotificationReceived: function (notification, payload) {
     if (notification == "PYTHON_DONE") {
-      if (currentDisplay != payload) {
-        var element = document.getElementById("display");
-        var formatted_data = this.format_events(payload);
-        element.innerHTML = formatted_data;
-        currentDisplay = formatted_data;
-      }
+      //if (formattedEvents != payload) {
+        var data = this.format_events(payload);
+        
+        currentEvents = data[0];
+        currentDates = data[1];
+
+        this.updateDom();
+      //}
     }
   },
     // Format raw json into a readable list
@@ -44,12 +69,15 @@ Module.register("custom-calendar", {
 
     const eventList = data.slice(0, size);
 
-    var returnString = "";
+    var returnEvents = "";
+    var returnDates = "";
+
     for (let i = 0; i < eventList.length; i++) {
-      returnString += eventList[i].name + "<br>";
+      returnEvents += eventList[i].name + "<br>";
+      returnDates += eventList[i].date + "<br>";
     }
 
-    return returnString
+    return [returnEvents, returnDates]
   }
 
 });
