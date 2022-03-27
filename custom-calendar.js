@@ -27,22 +27,29 @@ Module.register("custom-calendar", {
   },
 	getDom: function() {
         var display = document.createElement("div")
-        display.class = "display";
         display.id = "display";
 
         var title = document.createElement("div");
-        title.class = "header";
         title.id = "header";
         title.innerHTML = "Calendar"
         //title.setAttribute("style", "font-weight:bold")
 
-        var element = document.createElement("div");
-        element.className = "content";
-        element.id = "content";
-        element.innerHTML = currentEvents + currentDates;
+        var content = document.createElement("div");
+        content.id = "content";
+
+        var events = document.createElement("div");
+        events.id = "events";
+        events.innerHTML = currentEvents;
+
+        var dates = document.createElement("div");
+        dates.id = "dates";
+        dates.innerHTML = currentDates;
+
+        content.appendChild(events);
+        content.appendChild(dates);
 
         display.appendChild(title)
-        display.appendChild(element)
+        display.appendChild(content)
 
         return display
       },

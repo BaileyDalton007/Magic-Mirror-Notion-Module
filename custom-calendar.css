@@ -1,6 +1,11 @@
 div #header {
     font-weight: bold
 }
+
 div #content {
     column-count: 2
+}
+
+div #events {
+    font-weight: bold
 }
