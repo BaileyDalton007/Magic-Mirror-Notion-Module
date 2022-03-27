@@ -22,19 +22,16 @@ module.exports = NodeHelper.create({
     },
 
     // If notification of the main.js file is received, the node_helper will do this here:
-    socketNotificationReceived(notification, payload) {
+    socketNotificationReceived(notification) {
         if (notification === "DO_PYTHON") {
-            // this.config = payload;
             this.get_data();
-        } else {
-            // ...
         }
     },
 
 
  get_data() {
     // Python script makes notion api call and puts data into json_data.json to be parsed
-    var process = exec("python " + SCRIPT_PATH, {
+    exec("python " + SCRIPT_PATH, {
         cwd: PATH
     });
 
