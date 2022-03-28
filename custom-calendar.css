@@ -5,8 +5,8 @@ div #display {
 div #content {
     width: fit-content;
     column-count: 2;
-    column-gap: 80px;
-    margin-right: -80px;
+    column-gap: 50px;
+    margin-right: -130px;
 }
 
 div #header {
@@ -20,6 +20,10 @@ div #header {
 }
 
 div #events {
+    width: 200px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
     text-align: left;
     color: var(--color-text-bright);
 }

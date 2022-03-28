@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 
-const UPDATE_INTERVAL = 1000000;
+const UPDATE_INTERVAL = 30000;
 
 const dateOptions = {timezone: 'America/New_York', month: 'short', day: 'numeric' };
 
