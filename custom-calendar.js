@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 
-const UPDATE_INTERVAL = 10000;
+const UPDATE_INTERVAL = 1000000;
 
 const dateOptions = {timeZone: "America/New_York", month: 'short', day: 'numeric' };
 
@@ -33,8 +33,7 @@ Module.register("custom-calendar", {
 
         var title = document.createElement("div");
         title.id = "header";
-        title.innerHTML = "Calendar"
-        //title.setAttribute("style", "font-weight:bold")
+        title.innerHTML = "NOTION CALENDAR"
 
         var content = document.createElement("div");
         content.id = "content";
@@ -85,7 +84,6 @@ Module.register("custom-calendar", {
       returnEvents += eventList[i].name + "<br>";
 
       var date = new Date(eventList[i].date);
-      Log.log(date);
       var dateString = date.toLocaleDateString("en-US", dateOptions);
 
       // Uses the date to assign the suffix
@@ -93,8 +91,8 @@ Module.register("custom-calendar", {
 
       var numDate = date.getDate();
       switch(numDate) {
-        case "1":
-        case "21":
+        case 1:
+        case 21:
         case 31:
           suffix = "st";
           break;
@@ -102,8 +100,8 @@ Module.register("custom-calendar", {
         case 22:
           suffix = "nd";
           break;
-        case "3":
-        case "23":
+        case 3:
+        case 23:
           suffix = "rd"
           break;
       }
