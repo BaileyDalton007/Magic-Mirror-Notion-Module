@@ -3,7 +3,7 @@
 
 const UPDATE_INTERVAL = 1000000;
 
-const dateOptions = {timeZone: "America/New_York", month: 'short', day: 'numeric' };
+const dateOptions = {timezone: 'America/New_York', month: 'short', day: 'numeric' };
 
 let currentEvents = "Loading...";
 let currentDates = "";
@@ -58,14 +58,12 @@ Module.register("custom-calendar", {
 
 	socketNotificationReceived: function (notification, payload) {
     if (notification == "PYTHON_DONE") {
-      //if (formattedEvents != payload) {
         var data = this.format_events(payload);
         
         currentEvents = data[0];
         currentDates = data[1];
 
         this.updateDom();
-      //}
     }
   },
     // Format raw json into a readable list
@@ -83,8 +81,13 @@ Module.register("custom-calendar", {
     for (let i = 0; i < eventList.length; i++) {
       returnEvents += eventList[i].name + "<br>";
 
-      var date = new Date(eventList[i].date);
+      // Truncates time as we only need date
+      // Appends zeroed time because timezones, good luck
+      var date = new Date(eventList[i].date.slice(0, 10) + "T00:00:00");
+      Log.log(date);
       var dateString = date.toLocaleDateString("en-US", dateOptions);
+      Log.log(dateString);
+
 
       // Uses the date to assign the suffix
       var suffix = "th";

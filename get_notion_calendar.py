@@ -52,8 +52,7 @@ def getEvents():
         'filter': {
             'property': 'Date',
             'date': {
-                'on_or_after': getToday(),
-                'timezone': 'EST'
+                'on_or_after': getToday()
             }
         }
     })
