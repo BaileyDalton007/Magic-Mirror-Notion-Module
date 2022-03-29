@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable eqeqeq */
 
+
 const UPDATE_INTERVAL = 30000;
 
 const dateOptions = {timezone: 'America/New_York', month: 'short', day: 'numeric' };
@@ -19,6 +20,8 @@ Module.register("custom-calendar", {
 
 	start: function () {
     var self = this;
+    self.sendSocketNotification('CREDS', [this.config.path, this.config.databaseID, this.config.token]);
+    
     self.sendSocketNotification('DO_PYTHON');
     self.updateDom();
 
@@ -54,7 +57,6 @@ Module.register("custom-calendar", {
 
         return display
       },
-	notificationReceived: function () {},
 
 	socketNotificationReceived: function (notification, payload) {
     if (notification == "PYTHON_DONE") {
@@ -66,6 +68,7 @@ Module.register("custom-calendar", {
         this.updateDom();
     }
   },
+
     // Format raw json into a readable list
   format_events(payload) {
     const data = JSON.parse(payload);
@@ -84,9 +87,7 @@ Module.register("custom-calendar", {
       // Truncates time as we only need date
       // Appends zeroed time because timezones, good luck
       var date = new Date(eventList[i].date.slice(0, 10) + "T00:00:00");
-      Log.log(date);
       var dateString = date.toLocaleDateString("en-US", dateOptions);
-      Log.log(dateString);
 
 
       // Uses the date to assign the suffix
